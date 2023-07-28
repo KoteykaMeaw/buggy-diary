@@ -32,9 +32,9 @@ class Card(db.Model):
 class User(db.Model):
     #Создание полей
     #id
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.Integer, primary_key=True, autoincrement=True,nullable=False)
-    password  = db.Column(db.Integer, primary_key=True, autoincrement=True,nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.Integer, primary_key=True,nullable=False)
+    password  = db.Column(db.Integer, primary_key=True,nullable=False)
     def __repr__(self):
         return f'<User {self.id}>'
 
@@ -54,7 +54,7 @@ def login():
             #Задание №4. Реализовать проверку пользователей
             users_db = User.query.all()
             for user in users_db:
-                if form_login == user.login and form_password == user.password:
+                if form_login == user.email and form_password == user.password:
                  return redirect('/index')
             else:
                 error = 'Неправильно указан пользователь или пароль'
@@ -68,12 +68,12 @@ def login():
 def reg():
     if request.method == 'POST':
         id =  len(User.query.order_by(User.id).all())
-        login= request.form['email']
+        email= request.form['email']
         password = request.form['password']
         
         
         #Задание №3. Реализовать запись пользователей
-        user = User(id=id,login=login, password=password)
+        user = User(id=id,email=email, password=password)
         
         db.session.add(user)
         db.session.commit()
