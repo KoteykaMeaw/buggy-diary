@@ -67,12 +67,13 @@ def login():
 @app.route('/reg', methods=['GET','POST'])
 def reg():
     if request.method == 'POST':
+        id =  len(User.query.order_by(User.id).all())
         login= request.form['email']
         password = request.form['password']
-        id =  len(User.query.order_by(User.id).all())
+        
         
         #Задание №3. Реализовать запись пользователей
-        user = User(login=login, password=password)
+        user = User(id=id,login=login, password=password)
         
         db.session.add(user)
         db.session.commit()
